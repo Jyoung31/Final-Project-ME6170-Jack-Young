@@ -17,14 +17,13 @@ rm=(rf^2/vfiber)^.5;
 t=2.0*rm;
 Tt=8*t;
 zk=[-4*t,-3*t,-2*t,-t,0,t,2*t,3*t,4*t];
+%Theta=[45,-45,45,-45,45,-45,45,-45];
+Theta=[0,0,0,0,0,0,0,0];
 
-Theta=[45,-45,45,-45,45,-45,45,-45];
-%Theta=[0,0,0,0,0,0,0,0];
-
-N=[20;20;0]*1e6;
-M=[5;5;2]*1e6;
-%N=[20;20;5]*1e6;
-%M=[0;0;0]*1e6;
+%N=[20;20;0]*1e6;
+%M=[5;5;2]*1e6;
+N=[20;20;5]*1e6;
+M=[0;0;0]*1e6;
 %% Qbar_k
 for i=1:length(Theta)
     Qbar(i).k=Qbar_k(Theta(i),E1,E2,Nu12,Nu21,G12);
@@ -62,17 +61,17 @@ Cstar=B*Astar
 Dstar=D-B*(A^-1)*B
 
 %% kappa
-Kappa=-Dstar^(-1)*Cstar*N*Tt+Dstar^(-1)*M/Tt^2
+Kappa=(-Dstar^(-1)*Cstar*N*1e-6+Dstar^(-1)*M)*1e6
 
 %% epsilon not
-Epsilon_not = Astar*N+Bstar*Kappa*Tt
+Epsilon_not = Astar*N+Bstar*Kappa*lengthfactor
 
 
 %% sigma k
 
 for i=1:length(Theta)
     sigma(i).k=Qbar_k(Theta(i),E1,E2,Nu12,Nu21,G12)*Epsilon_not+Qbar_k(Theta(i),E1,E2,Nu12,Nu21,G12)*(zk(i)+t/2)*Kappa;
-    sigma(i).k=sigma(i).k/1e9; 
+    sigma(i).k=sigma(i).k/1e6; 
 end
 sigmak1=sigma(1).k
 sigmak2=sigma(2).k
